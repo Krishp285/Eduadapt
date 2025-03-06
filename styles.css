@@ -1,0 +1,559 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #e3f2fd, #90caf9);
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #42a5f5, #26c6da);
+  color: white;
+  padding: 15px 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.theme-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#theme-switch {
+  display: none;
+}
+
+.theme-slider {
+  width: 60px;
+  height: 34px;
+  background-color: #ccc;
+  border-radius: 34px;
+  cursor: pointer;
+  transition: 0.4s;
+  position: relative;
+  display: inline-block;
+}
+
+.theme-slider::before {
+  content: '';
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+#theme-switch:checked + .theme-slider {
+  background-color: #2196F3;
+}
+
+#theme-switch:checked + .theme-slider::before {
+  transform: translateX(26px);
+}
+
+.app-container {
+  display: flex;
+  height: calc(100vh - 70px);
+}
+
+.sidebar {
+  width: 250px;
+  background: #ffffff;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100%;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.sidebar[aria-hidden="true"] {
+  transform: translateX(-250px);
+}
+
+#menu-toggle {
+  display: none;
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  color: #42a5f5;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.sidebar h2 {
+  margin: 0 0 20px;
+  color: #42a5f5;
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #42a5f5;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 8px;
+  font-size: 1.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar button.active {
+  background: linear-gradient(90deg, #42a5f5, #26c6da);
+  color: white;
+  transform: scale(1.05);
+}
+
+.sidebar button:hover {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.sidebar li:last-child #logout-btn-sidebar {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.sidebar li:last-child #logout-btn-sidebar:hover {
+  background: linear-gradient(135deg, #b71c1c, #c62828);
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.5);
+}
+
+.dark-mode .sidebar li:last-child #logout-btn-sidebar {
+  background: linear-gradient(135deg, #ef5350, #e57373);
+}
+
+.dark-mode .sidebar li:last-child #logout-btn-sidebar:hover {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+main {
+  margin-left: 250px;
+  padding: 30px;
+  width: calc(100% - 250px);
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px 0 0 15px;
+}
+
+.dashboard-section, .auth-section, .courses-section, .ai-tutor-section, .quizzes-section,
+.achievements-section, .offline-mode-section, .ar-vr-section, .portfolio-section,
+.community-section, .settings-section, .help-section {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  margin-bottom: 25px;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.dashboard-title {
+  color: #42a5f5;
+  margin-bottom: 20px;
+  font-size: 2em;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: linear-gradient(135deg, #ffffff, #f0f4f8);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 100%;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h3 {
+  color: #42a5f5;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+.dashboard-card p {
+  margin: 10px 0;
+  font-size: 1em;
+  color: #333;
+}
+
+.dashboard-btn {
+  background: linear-gradient(90deg, #42a5f5, #26c6da);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.dashboard-btn:hover {
+  transform: scale(1.05);
+}
+
+.auth-section h2, .courses-section h2, .ai-tutor-section h2,
+.quizzes-section h2, .achievements-section h2, .offline-mode-section h2,
+.ar-vr-section h2, .portfolio-section h2, .community-section h2,
+.settings-section h2, .help-section h2 {
+  color: #42a5f5;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.btn {
+  background: linear-gradient(90deg, #42a5f5, #26c6da);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin: 5px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.progress-overview, .recommendations, .quick-access, .goals, .announcements,
+.course-list, .course-filters, .chat-area, .quiz-area, .gamification-area,
+.downloaded-content, .vr-content, .portfolio-content, .forum-content, .faqs {
+  margin-bottom: 20px;
+}
+
+.chat-area {
+  height: 200px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  overflow-y: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#chat-input {
+  width: 70%;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.voice-btn {
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+#botpress-chat {
+  width: 100%;
+  height: 400px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dark-mode {
+  background: linear-gradient(135deg, #1a237e, #283593);
+  color: #e0e0e0;
+}
+
+.dark-mode header {
+  background: linear-gradient(90deg, #1a237e, #283593);
+}
+
+.dark-mode .sidebar {
+  background: #121212;
+}
+
+.dark-mode .sidebar h2 {
+  color: #bbdefb;
+}
+
+.dark-mode .sidebar button {
+  color: #bbdefb;
+}
+
+.dark-mode .sidebar button.active {
+  background: #283593;
+}
+
+.dark-mode .sidebar button:hover {
+  background: #37474f;
+}
+
+.dark-mode .sidebar li:last-child #logout-btn-sidebar {
+  background: linear-gradient(135deg, #ef5350, #e57373);
+}
+
+.dark-mode .sidebar li:last-child #logout-btn-sidebar:hover {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+.dark-mode .dashboard-section, .dark-mode .auth-section, .dark-mode .courses-section,
+.dark-mode .ai-tutor-section, .dark-mode .quizzes-section, .dark-mode .achievements-section,
+.dark-mode .offline-mode-section, .dark-mode .ar-vr-section, .dark-mode .portfolio-section,
+.dark-mode .community-section, .dark-mode .settings-section, .dark-mode .help-section {
+  background: #212121;
+}
+
+.dark-mode .dashboard-title {
+  color: #bbdefb;
+}
+
+.dark-mode .dashboard-grid .dashboard-card {
+  background: linear-gradient(135deg, #212121, #303030);
+}
+
+.dark-mode .dashboard-card h3 {
+  color: #bbdefb;
+}
+
+.dark-mode .dashboard-card p {
+  color: #e0e0e0;
+}
+
+.dark-mode .dashboard-btn {
+  background: linear-gradient(90deg, #283593, #3f51b5);
+}
+
+.dark-mode .input-field {
+  background: #303030;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.dark-mode .btn {
+  background: linear-gradient(90deg, #283593, #3f51b5);
+}
+
+.dark-mode .theme-slider {
+  background-color: #555;
+}
+
+.dark-mode .theme-slider::before {
+  background-color: #bbb;
+}
+
+.dark-mode #botpress-chat {
+  border-color: #555;
+  background: #303030;
+}
+
+.dark-mode .chat-area {
+  border-color: #555;
+  background: #212121;
+  color: #e0e0e0;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-250px);
+  }
+  .sidebar[aria-hidden="false"] {
+    transform: translateX(0);
+  }
+  #menu-toggle {
+    display: block;
+  }
+  main {
+    margin-left: 0;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Enhanced styling for the role selection dropdown */
+#role {
+  width: 80%; /* Slightly narrower for a centered look */
+  padding: 12px;
+  margin: 20px auto; /* Centered with spacing */
+  border: 2px solid #42a5f5; /* Bold border for emphasis */
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff, #e3f2fd); /* Gradient background */
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #1976d2;
+  appearance: none; /* Remove default arrow */
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  animation: bounceInDown 1s ease-out, pulse 2s infinite 1s; /* Bounce in and pulse animation */
+}
+
+/* Custom arrow for the dropdown using pseudo-element */
+#role::after {
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #42a5f5;
+  pointer-events: none;
+  transition: transform 0.3s;
+}
+
+#role:hover::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+#role:focus {
+  outline: none;
+  border-color: #26c6da;
+  box-shadow: 0 0 10px rgba(66, 165, 245, 0.5);
+  animation: tada 0.5s ease-out; /* Tada effect on focus */
+}
+
+/* Option styling (affects the dropdown list items) */
+#role option {
+  background: #ffffff;
+  color: #333;
+  padding: 10px;
+  animation: fadeIn 0.5s ease-out; /* Fade in for options */
+}
+
+/* Dark mode adjustments for role selection */
+.dark-mode #role {
+  background: linear-gradient(135deg, #212121, #303030);
+  border-color: #bbdefb;
+  color: #bbdefb;
+}
+
+.dark-mode #role option {
+  background: #212121;
+  color: #e0e0e0;
+}
+
+.dark-mode #role:focus {
+  border-color: #3f51b5;
+  box-shadow: 0 0 10px rgba(187, 222, 251, 0.5);
+}
+
+/* New animation keyframes */
+@keyframes bounceInDown {
+  0% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+  60% { transform: translateY(20px) scale(1.1); opacity: 1; }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes tada {
+  0% { transform: scale(1); }
+  10%, 20% { transform: scale(0.9) rotate(-3deg); }
+  30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+  40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* Styled logout button in header */
+#logout-btn {
+  background: linear-gradient(135deg, #d32f2f, #f44336); /* Red gradient */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: inline-block; /* Ensure it’s visible by default */
+  animation: fadeIn 0.5s ease-out; /* Fade in on load */
+}
+
+#logout-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 4px 10px rgba(244, 67, 54, 0.4);
+  background: linear-gradient(135deg, #b71c1c, #c62828); /* Darker red on hover */
+  animation: pulse 0.5s ease-out; /* Pulse effect on hover */
+}
+
+#logout-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  animation: rubberBand 0.3s ease-out; /* Stretch effect on click */
+}
+
+/* Dark mode adjustments for logout button */
+.dark-mode #logout-btn {
+  background: linear-gradient(135deg, #ef5350, #e57373);
+}
+
+.dark-mode #logout-btn:hover {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+}

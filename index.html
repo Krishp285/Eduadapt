@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduAdapt</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Botpress Web Chat -->
+  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+</head>
+<body>
+  <header>
+    <h1 class="logo animate__animated animate__bounceIn">EduAdapt</h1>
+    <span id="status">Mode: Online</span>
+    <div class="theme-toggle">
+      <input type="checkbox" id="theme-switch" aria-label="Toggle Dark/Light Mode">
+      <label for="theme-switch" class="theme-slider"></label>
+    </div>
+    <button id="logout-btn" style="display:none;" aria-label="Logout">Logout</button>
+  </header>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <button id="menu-toggle" aria-label="Toggle Menu">☰</button>
+      <h2 class="animate__animated animate__fadeIn">Menu</h2>
+      <ul>
+        <li><button id="dashboard-btn" class="active animate__animated animate__pulse">🏠 Dashboard</button></li>
+        <li><button id="courses-btn" class="animate__animated animate__pulse">📚 My Courses</button></li>
+        <li><button id="ai-tutor-btn" class="animate__animated animate__pulse">🤖 AI Tutor Chat</button></li>
+        <li><button id="quizzes-btn" class="animate__animated animate__pulse">📝 Quizzes & Assessments</button></li>
+        <li><button id="achievements-btn" class="animate__animated animate__pulse">🎮 Achievements & Gamification</button></li>
+        <li><button id="offline-mode-btn" class="animate__animated animate__pulse">📶 Offline Mode</button></li>
+        <li><button id="ar-vr-btn" class="animate__animated animate__pulse">🕶️ AR/VR Learning Hub</button></li>
+        <li><button id="portfolio-btn" class="animate__animated animate__pulse">🎨 AI Portfolio Designer</button></li>
+        <li><button id="community-btn" class="animate__animated animate__pulse">💬 Community & Discussions</button></li>
+        <li><button id="settings-btn" class="animate__animated animate__pulse">⚙️ Settings</button></li>
+        <li><button id="help-btn" class="animate__animated animate__pulse">❓ Help & Support</button></li>
+        <li><button id="logout-btn-sidebar" class="animate__animated animate__pulse">🚪 Log Out</button></li>
+      </ul>
+    </aside>
+    <main>
+      <section id="auth" class="auth-section animate__animated">
+        <h2>Login</h2>
+        <select id="role" aria-label="User Role">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="parent">Parent</option>
+        </select>
+        <input type="text" id="email" placeholder="Email" aria-label="Email" class="input-field">
+        <input type="password" id="password" placeholder="Password" aria-label="Password" class="input-field">
+        <button id="login-btn" class="btn animate__animated animate__rubberBand">Login</button>
+        <button id="signup-btn" class="btn animate__animated animate__rubberBand">Sign Up</button>
+      </section>
+      <section id="dashboard" class="dashboard-section animate__animated" style="display:none;">
+        <h2 class="dashboard-title">Dashboard Overview</h2>
+        <div class="dashboard-grid">
+          <!-- Progress Card -->
+          <div class="dashboard-card">
+            <h3>Progress Overview</h3>
+            <canvas id="progressChart" width="200" height="100"></canvas>
+            <div class="progress-details">
+              <p>Completed: <span id="completed-courses">0</span></p>
+              <p>In-Progress: <span id="in-progress-courses">0</span></p>
+              <p>Upcoming: <span id="upcoming-courses">0</span></p>
+            </div>
+          </div>
+          <!-- Recommendations Card -->
+          <div class="dashboard-card">
+            <h3>AI Recommendations</h3>
+            <p id="recommendations-text">Recommended: Advanced Math</p>
+            <button class="btn dashboard-btn">Explore</button>
+          </div>
+          <!-- Quick Access Card -->
+          <div class="dashboard-card">
+            <h3>Recently Viewed</h3>
+            <p id="recently-viewed">Last viewed: Gujarat Geography</p>
+            <button class="btn dashboard-btn">Resume</button>
+          </div>
+          <!-- Goals & Streaks Card -->
+          <div class="dashboard-card">
+            <h3>Daily Goals & Streaks</h3>
+            <p>Goal: <span id="daily-goal">30 mins</span></p>
+            <p>Streak: <span id="streak">5 days</span></p>
+            <button class="btn dashboard-btn">Set Goal</button>
+          </div>
+          <!-- Announcements Card -->
+          <div class="dashboard-card">
+            <h3>Announcements</h3>
+            <p id="announcements">New Quiz Tomorrow!</p>
+            <button class="btn dashboard-btn">View All</button>
+          </div>
+        </div>
+      </section>
+      <section id="courses" class="courses-section animate__animated" style="display:none;">
+        <h2>My Courses</h2>
+        <div class="course-list">
+          <h3>Enrolled Courses</h3>
+          <ul id="course-list"></ul>
+        </div>
+        <div class="course-filters">
+          <button id="filter-completed" class="btn">Completed</button>
+          <button id="filter-ongoing" class="btn">Ongoing</button>
+          <button id="filter-recommended" class="btn">Recommended</button>
+        </div>
+        <button id="resume-session" class="btn">Resume Last Session</button>
+        <button id="download-lesson" class="btn">Download Lesson</button>
+        <div class="forum">
+          <h3>Course Discussions</h3>
+          <p id="forum-text">Join discussions...</p>
+        </div>
+      </section>
+      <section id="ai-tutor" class="ai-tutor-section animate__animated" style="display:none;">
+        <h2>AI Tutor Chat</h2>
+        <div class="chat-area" id="chat-area"></div>
+        <input type="text" id="chat-input" placeholder="Ask a question..." aria-label="Chat input">
+        <button id="send-chat" class="btn">Send</button>
+        <button id="voice-search" class="voice-btn animate__animated animate__tada">🎤</button>
+        <button id="ar-vr-support" class="btn">AR/VR Support</button>
+        <button id="feedback-btn" class="btn">Feedback</button>
+        <div id="botpress-chat"></div>
+      </section>
+      <section id="quizzes" class="quizzes-section animate__animated" style="display:none;">
+        <h2>Quizzes & Assessments</h2>
+        <div class="quiz-area" id="quiz-area"></div>
+        <button id="start-quiz" class="btn">Start Quiz</button>
+        <button id="leaderboard-quiz" class="btn">Leaderboard</button>
+        <select id="quiz-mode">
+          <option value="timed">Timed</option>
+          <option value="untimed">Untimed</option>
+        </select>
+        <button id="certificate-btn" class="btn">Get Certificate</button>
+      </section>
+      <section id="achievements" class="achievements-section animate__animated" style="display:none;">
+        <h2>Achievements & Gamification</h2>
+        <p>Points: <span id="points-achieve">0</span></p>
+        <div id="badges-achieve"></div>
+        <div id="leaderboard-achieve"></div>
+        <p>Challenges: <span id="challenges">Check weekly...</span></p>
+      </section>
+      <section id="offline-mode" class="offline-mode-section animate__animated" style="display:none;">
+        <h2>Offline Mode</h2>
+        <ul id="downloaded-content"></ul>
+        <button id="sync-progress" class="btn">Sync Progress</button>
+        <button id="manage-cache" class="btn">Manage Cache</button>
+        <p>Storage Used: <span id="storage-used">0 MB</span></p>
+      </section>
+      <section id="ar-vr" class="ar-vr-section animate__animated" style="display:none;">
+        <h2>AR/VR Learning Hub</h2>
+        <div id="vr-content"></div>
+        <button id="vr-simulations" class="btn">Start Simulation</button>
+        <button id="vr-video" class="btn">360° Video</button>
+        <button id="vr-headset" class="btn">Use VR Headset</button>
+      </section>
+      <section id="portfolio" class="portfolio-section animate__animated" style="display:none;">
+        <h2>AI Portfolio Designer</h2>
+        <div id="portfolio-content"></div>
+        <button id="generate-portfolio" class="btn">Generate Portfolio</button>
+        <button id="export-pdf" class="btn">Export to PDF</button>
+        <button id="linkedin-share" class="btn">Share to LinkedIn</button>
+      </section>
+      <section id="community" class="community-section animate__animated" style="display:none;">
+        <h2>Community & Discussions</h2>
+        <div id="forum-content"></div>
+        <button id="join-qa" class="btn">Join Q&A</button>
+        <button id="create-thread" class="btn">Create Thread</button>
+      </section>
+      <section id="settings" class="settings-section animate__animated" style="display:none;">
+        <h2>Settings</h2>
+        <input type="text" id="profile-name" placeholder="Name" aria-label="Name">
+        <input type="email" id="profile-email" placeholder="Email" aria-label="Email" disabled>
+        <input type="file" id="profile-pic" aria-label="Profile Picture">
+        <button id="save-profile" class="btn">Save</button>
+        <label><input type="checkbox" id="notifications-email"> Email</label>
+        <label><input type="checkbox" id="notifications-push"> Push</label>
+        <label><input type="checkbox" id="notifications-sms"> SMS</label>
+        <button id="cache-control" class="btn">Cache Settings</button>
+        <button id="change-password" class="btn">Change Password</button>
+      </section>
+      <section id="help" class="help-section animate__animated" style="display:none;">
+        <h2>Help & Support</h2>
+        <div id="faqs"></div>
+        <button id="contact-support" class="btn">Contact Support</button>
+        <button id="tutorials" class="btn">Watch Tutorials</button>
+        <button id="report-bug" class="btn">Report Bug</button>
+      </section>
+    </main>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://unpkg.com/idb@7.0.2/build/umd.js"></script>
+  <script src="firebase.js"></script>
+  <script src="app.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+</body>
+</html>
